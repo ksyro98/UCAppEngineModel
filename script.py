@@ -61,3 +61,7 @@ def get_model():
 def run_stored_model(input_df):
     model = joblib.load('./downloads/model.pkl')
     return model.predict(input_df)
+
+
+if __name__ == '__main__':
+    app.run()
