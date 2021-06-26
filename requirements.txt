@@ -1,0 +1,4 @@
+joblib~=1.0.1
+pandas~=1.2.5
+Flask~=2.0.1
+google~=3.0.0
