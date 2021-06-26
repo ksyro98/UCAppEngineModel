@@ -49,7 +49,7 @@ def prepare_input_value(battery_level, battery_status, device_interactive, displ
 
 
 def get_model():
-    storage_client = storage.Client.from_service_account_json()
+    storage_client = storage.Client()
     bucket = storage_client.bucket("diaxytos-313718.appspot.com")
 
     blob = bucket.blob("model.pkl")
