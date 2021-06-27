@@ -1,7 +1,7 @@
 import joblib
 from flask import Flask, request, jsonify
 import pandas as pd
-from google.cloud import storage
+import sklearn
 
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ def post():
         df = prepare_input_value(battery_level, battery_status, device_interactive,
                                  display_state, location_conf, notifs_active)
 
-        get_model()
+        # get_model()
         prediction = run_stored_model(df)
         print(int(prediction[0] * 1000))
         response = jsonify({
@@ -48,20 +48,10 @@ def prepare_input_value(battery_level, battery_status, device_interactive, displ
     return pd.DataFrame(data, index=[0])
 
 
-def get_model():
-    storage_client = storage.Client()
-    bucket = storage_client.bucket("diaxytos-313718.appspot.com")
-
-    blob = bucket.blob("model.pkl")
-
-    with open('./downloads/model.pkl', 'wb') as file_obj:
-        blob.download_to_file(file_obj)
-
-
 def run_stored_model(input_df):
     model = joblib.load('./downloads/model.pkl')
     return model.predict(input_df)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
